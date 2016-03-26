@@ -21,7 +21,7 @@ class Spider:
         for i in range(self.from_page, self.from_page + self.page_count):
             url = self.searchURL + str(i)
 
-            print("page : " + str(i))
+            print(">> loading page : " + str(i))
 
             page = get_page(url)
             image_item_list = get_image_item_list(page)
@@ -33,15 +33,16 @@ class Spider:
                     if book_mark_count >= self.threshold:
                         print(rootURL + get_illust(image_item).groups()[0])
 
+            print(">> finished")
+
 
 def get_page(url):
     req = urllib.request.Request(url)
     req.add_header('Cookie', cookie)
     resp = urllib.request.urlopen(req)
 
-    page = resp.read().decode('utf-8')
-
-    return page
+    # read的结果为二进制，使用decode将结果转换为字符串
+    return resp.read().decode('utf-8')
 
 
 def get_image_item_list(page):
